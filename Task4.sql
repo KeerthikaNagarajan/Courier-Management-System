@@ -205,4 +205,4 @@ where amount=(select max(amount) from payment);
  
 select courierID,senderName,weight from courier 
 where weight>all
-(select weight from courier where senderName='Divya Shree');
+(select weight from courier where senderName='Kavitha T');
