@@ -1,11 +1,13 @@
 # Courier Management System
-## TASK 1
-### Database Design:
-```MYSQL
+## Task1: Database Design 
+### Creating Database
+```mysql
 CREATE DATABASE courierdb;
 USE courierdb;
+```
 
--- Creating User table and inserting data
+### Creating User table and inserting data
+```mysql
 CREATE TABLE User (
     UserID INT PRIMARY KEY, 
     Name VARCHAR(255) NOT NULL, 
@@ -29,8 +31,11 @@ VALUES
 (1020, 'Swetha T', 'swethat@gmail.com', 'Swetha@000', '9812345678', 'Srirangam, Trichy, Tamil Nadu');
 
 SELECT * FROM User;
+```
+<img width="474" alt="image" src="https://github.com/user-attachments/assets/44cf6822-48bb-4daf-b96a-fc909be5b9f5" />
 
--- Creating Courier table and inserting data
+### Creating Courier table and inserting data
+```mysql
 CREATE TABLE Courier (
     CourierID INT PRIMARY KEY,  
     SenderName VARCHAR(255),  
@@ -51,8 +56,11 @@ INSERT INTO Courier (CourierID, SenderName, SenderAddress, ReceiverName, Receive
 (15, 'Rohan Bhardwaj', 'Connaught Place, Delhi', 'Meenal Saxena', 'Shivaji Nagar, Bhopal, Madhya Pradesh', 4.25, 'Dispatched', 'DEL337788665', '2025-05-08');
 
 SELECT * FROM Courier;
+```
+<img width="761" alt="image" src="https://github.com/user-attachments/assets/e94fbde7-3cfe-49fb-8fbf-d3cab7f35270" />
 
--- Creating Employee table and inserting data
+### Creating Employee table and inserting data
+```mysql
 CREATE TABLE Employee (
     EmployeeID INT PRIMARY KEY,  
     Name VARCHAR(255),  
@@ -71,8 +79,11 @@ VALUES
 (130, 'Sandeep K', 'sandeep.k@email.com', '9632547891', 'Inventory Supervisor', 36500.00);
 
 SELECT * FROM Employee;
+```
+<img width="431" alt="image" src="https://github.com/user-attachments/assets/800f626b-1956-4d00-bfa6-786aba99953b" />
 
--- Creating Service table and inserting data
+### Creating Service table and inserting data
+```mysql
 CREATE TABLE Service (
     ServiceID VARCHAR(10) PRIMARY KEY,  
     ServiceName VARCHAR(100),  
@@ -86,8 +97,11 @@ VALUES
 ('S18', 'Global Priority Shipping', 3200.00);
 
 SELECT * FROM Service;
+```
+<img width="211" alt="image" src="https://github.com/user-attachments/assets/002d8040-cedd-44b0-b673-c7fa9ec58b33" />
 
--- Creating Location table and inserting data
+### Creating Location table and inserting data
+```mysql
 CREATE TABLE Location (
     LocationID INT PRIMARY KEY,  
     LocationName VARCHAR(100),  
@@ -101,8 +115,11 @@ VALUES
 (13, 'Tiruvannamalai Distribution Hub', '36, Arunachala Street, Tiruvannamalai, Tamil Nadu - 606603');
 
 SELECT * FROM Location;
+```
+<img width="287" alt="image" src="https://github.com/user-attachments/assets/2f1bb97d-37df-4f4c-9c8e-96d6eab177ed" />
 
--- Creating Payment table and inserting data
+### Creating Payment table and inserting data
+```mysql
 CREATE TABLE Payment (
     PaymentID INT PRIMARY KEY,  
     CourierID INT,  
@@ -124,418 +141,228 @@ VALUES
 (503, 13, 13, 1013, 'S18', 500.00, '2025-02-25');
 
 SELECT * FROM Payment;
-
-
 ```
-* User Table: 
-<img width="473" alt="image" src="https://github.com/user-attachments/assets/8c35e1f3-dea3-4794-a596-b3ce12d68430" />
+<img width="362" alt="image" src="https://github.com/user-attachments/assets/39c6b652-3c1c-4dc4-b9f0-f32c829f7d55" />
 
-* Courier:
-<img width="719" alt="image" src="https://github.com/user-attachments/assets/4b9eb4ef-4a6f-415f-ba64-70a56683d16f" />
+### Creating CourierAssignment table and inserting data
+```mysql
+CREATE TABLE CourierAssignment (
+    AssignmentID INT PRIMARY KEY AUTO_INCREMENT,
+    EmployeeID INT,
+    CourierID INT,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID) ON DELETE CASCADE,
+    FOREIGN KEY (CourierID) REFERENCES Courier(CourierID) ON DELETE CASCADE
+);
 
-* CourierServices:
-<img width="431" alt="image" src="https://github.com/user-attachments/assets/b1ef1711-594a-4c9e-9f44-c363be543ec8" />
+INSERT INTO CourierAssignment (EmployeeID, CourierID) VALUES
+(126, 11),
+(127, 12),
+(128, 13),
+(129, 14),
+(130, 15);
+```
+<img width="194" alt="image" src="https://github.com/user-attachments/assets/2946d4d7-c22b-4413-b3e2-cf4cffd148a6" />
 
-* Employee Table: 
-<img width="204" alt="image" src="https://github.com/user-attachments/assets/562e5374-7a9d-44f4-bb2e-256c29ae545d" />
+### EER: 
+<img width="587" alt="EER DIAG" src="https://github.com/user-attachments/assets/c1c4b5de-2291-4ba9-8bbd-323440242e82" />
 
-* Location Table:
-<img width="386" alt="image" src="https://github.com/user-attachments/assets/43e2575c-1e3c-40d0-aa3e-e73be2fa33a5" />
+## Task 2: Select, Where
+### 1. List all customers from the User table.
+```mysql
+SELECT * FROM User;
+```
+<img width="476" alt="1" src="https://github.com/user-attachments/assets/6fb3f351-3a0f-4cac-98e2-8ffda1736ec0" />
 
-* Payment Table: 
-<img width="358" alt="image" src="https://github.com/user-attachments/assets/0ff470a4-5a11-4c2f-bc70-664dec71ba21" />
+### 2. List all orders for a specific customer using WHERE.
+```mysql
+SELECT c.* 
+FROM Courier c
+JOIN User u ON c.SenderName = u.Name
+WHERE u.UserID = 1011;
+```
+<img width="718" alt="2" src="https://github.com/user-attachments/assets/e0dfa872-129b-4823-beb6-5558e001e4f4" />
 
-### EER:
-![err](https://github.com/user-attachments/assets/dc92b825-9937-4ca0-9993-072c4afe6a8c)
-
-## TASK 2
-### Select,Where:
-
-```MYSQL
-SELECT Name FROM User;
-
-SELECT * FROM Courier WHERE SenderName = 'Kabir Mehta';
-
+### 3. List all couriers from the Courier table.
+```mysql
 SELECT * FROM Courier;
+```
+<img width="761" alt="3" src="https://github.com/user-attachments/assets/bafa2c94-c4a1-4902-b12d-adec0aed2896" />
 
-SELECT * FROM Courier WHERE CourierID = 11;
+### 4. List all packages for a specific order.
+```mysql
+SELECT * 
+FROM Courier 
+WHERE CourierID = 11;
+```
+<img width="719" alt="4" src="https://github.com/user-attachments/assets/d0911bc6-f4ab-46e1-85e5-a5b66bf9e027" />
 
-SELECT * FROM Courier 
-WHERE CourierID IN (11, 12) AND DeliveryDate IS NOT NULL;
+### 5. List all deliveries for a specific courier.
+```mysql
+SELECT * 
+FROM Courier 
+WHERE CourierID = 12 AND Status = 'Delivered';
+```
+<img width="715" alt="5" src="https://github.com/user-attachments/assets/7a3b081c-1f61-4534-8e46-4caf2e3d6057" />
 
-SELECT * FROM Courier WHERE Status != 'Delivered';
+### 6. List all undelivered packages (Status != 'Delivered').
+```mysql
+SELECT * 
+FROM Courier 
+WHERE Status != 'Delivered';
+```
+<img width="758" alt="6" src="https://github.com/user-attachments/assets/c62cd4b7-518a-4dc9-89d2-d7d4a85d34b8" />
 
-SELECT * FROM Courier WHERE DeliveryDate = CURDATE();
+### 7. List all packages scheduled for delivery today (DeliveryDate = CURDATE()).
+```mysql
+SELECT * 
+FROM Courier 
+WHERE DeliveryDate = CURDATE();
+```
+<img width="632" alt="7" src="https://github.com/user-attachments/assets/ec1f5aab-d052-4bfa-b09f-700b34a8fd8a" />
 
-SELECT * FROM Courier WHERE Status = 'In Transit';
-SELECT * FROM Courier WHERE Status = 'Shipped';
+### 8. List all packages with a specific status (WHERE Status = 'In Transit').
+```mysql
+SELECT * 
+FROM Courier 
+WHERE Status = 'In Transit';
+```
+<img width="718" alt="8" src="https://github.com/user-attachments/assets/e7488286-65a8-49ef-87e6-e0d7ceba5f85" />
 
+### 9. Calculate the total number of packages for each courier using COUNT().
+```mysql
 SELECT SenderName, COUNT(*) AS TotalPackages
 FROM Courier 
 GROUP BY SenderName;
+```
+<img width="153" alt="9" src="https://github.com/user-attachments/assets/fa9e54cf-78a9-4bb4-89eb-e2e2525b14d1" />
 
+### 10. Find the average delivery time for each courier using AVG().
+```mysql
 SELECT c.CourierID, 
        AVG(DATEDIFF(c.DeliveryDate, p.PaymentDate)) AS AvgDeliveryTime
 FROM Courier c
 JOIN Payment p ON c.CourierID = p.CourierID
 GROUP BY c.CourierID;
+```
+<img width="145" alt="10" src="https://github.com/user-attachments/assets/3e338f84-e23f-4335-8a0a-e97648f11f9d" />
 
-SELECT * FROM Courier WHERE Weight BETWEEN 2.00 AND 5.00;
+### 11. List all packages within a specific weight range (WHERE Weight BETWEEN x AND y).
+```mysql
+SELECT * 
+FROM Courier 
+WHERE Weight BETWEEN 2.00 AND 5.00;
+```
+<img width="760" alt="11" src="https://github.com/user-attachments/assets/cf5fbea6-afcd-4e5e-b4b4-ebfb3520578e" />
 
-SELECT * FROM Employee WHERE Name LIKE '%John%';
+### 12. Retrieve employees whose names contain 'John' (WHERE Name LIKE '%John%').
+```mysql
+SELECT * 
+FROM Employee 
+WHERE Name LIKE '%John%';
+```
+<img width="280" alt="12" src="https://github.com/user-attachments/assets/917fb8ab-f541-4f19-bd62-f69c3058d206" />
 
+### 13. Retrieve all courier records with payments greater than $50.
+```mysql
 SELECT c.* 
 FROM Courier c 
 JOIN Payment p ON c.CourierID = p.CourierID
 WHERE p.Amount > 50;
 ```
+<img width="759" alt="13" src="https://github.com/user-attachments/assets/044ccf60-446b-41cf-898a-abf16a38d752" />
 
-1. List all customers:
-<img width="72" alt="image" src="https://github.com/user-attachments/assets/134a15ae-fb30-4f86-adae-bfe02725ca32" />
-   
-2. List all orders for a specific customer:
-<img width="664" alt="image" src="https://github.com/user-attachments/assets/8b66f9b8-2015-4b76-90d5-5673f613b609" />
-
-3. List all couriers:
-<img width="719" alt="image" src="https://github.com/user-attachments/assets/05672fe6-50f8-41b1-855a-e7c231797c48" />
-
-4. List all packages for a specific order:
-<img width="706" alt="image" src="https://github.com/user-attachments/assets/3e919737-afd7-453f-8478-2d0e448a6ba1" />
-
-5. List all deliveries for a specific courier:
-<img width="706" alt="image" src="https://github.com/user-attachments/assets/cecf5304-f9bc-4e10-859d-dbc67fef297e" />
-
-6. List all undelivered packages:
-<img width="716" alt="image" src="https://github.com/user-attachments/assets/42f589ec-14e3-42d8-b8be-3942d30be8e4" />
-
-7. List all packages that are scheduled for delivery today:
-<img width="357" alt="image" src="https://github.com/user-attachments/assets/8d2cfa1e-fbcc-4a96-976c-a0dadb47692d" />
-
-8. List all packages with a specific status:
-<img width="704" alt="image" src="https://github.com/user-attachments/assets/53d22fa5-c89c-4da5-8019-8186b5806e56" />
-
-<img width="675" alt="image" src="https://github.com/user-attachments/assets/5a663361-0a22-418a-b660-612d7bdd63ad" />
-
-9. Calculate the total number of packages for each courier.
-<img width="173" alt="image" src="https://github.com/user-attachments/assets/9b46cc6b-8d05-41bf-be49-6b4761a1e917" />
-
-11. Find the average delivery time for each courier
-<img width="143" alt="image" src="https://github.com/user-attachments/assets/951d9f6b-9340-4c93-b815-5f77ff00443a" />
-
-12. List all packages with a specific weight range:
-<img width="716" alt="image" src="https://github.com/user-attachments/assets/d544c2d9-69ff-4b5a-baaa-b5defb6b2079" />
-
-13. Retrieve employees whose names contain 'John'
-<img width="283" alt="image" src="https://github.com/user-attachments/assets/64f49bc2-c397-4974-8bf3-087ca1cdca56" />
-
-14. Retrieve all courier records with payments greater than $50.
-<img width="713" alt="image" src="https://github.com/user-attachments/assets/a3560b0a-9831-49da-9f4c-5abd6ff45afc" />
-
-## TASK 3
-### GroupBy, Aggregate Functions, Having, Order By, where:
-```Mysql
-USE courierdb;
-SELECT e.Name, COUNT(ca.CourierID) AS Total_Couriers 
-FROM Employee e 
+## Task 3: GroupBy, Aggregate Functions, Having, Order By, where 
+### 14. Find the total number of couriers handled by each employee using COUNT() and GROUP BY.
+```mysql
+SELECT e.EmployeeID, e.Name, COUNT(ca.CourierID) AS TotalCouriers
+FROM Employee e
 JOIN CourierAssignment ca ON e.EmployeeID = ca.EmployeeID
-JOIN Courier c ON ca.CourierID = c.CourierID
 GROUP BY e.EmployeeID, e.Name;
+```
+<img width="203" alt="14" src="https://github.com/user-attachments/assets/7d3854fb-11bf-4aff-bff2-887185085fd8" />
 
-SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS Total_Revenue
-FROM Payment p 
+### 15. Calculate the total revenue generated by each location using SUM() and GROUP BY.
+```mysql
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalRevenue
+FROM Payment p
 JOIN Location l ON p.LocationID = l.LocationID
 GROUP BY l.LocationID, l.LocationName;
+```
+<img width="241" alt="15" src="https://github.com/user-attachments/assets/1fa9a510-b88a-4684-afd5-6bf77ec3c3d8" />
 
-ALTER TABLE Courier ADD COLUMN DestinationLocationID INT;
-ALTER TABLE Courier ADD FOREIGN KEY (DestinationLocationID) REFERENCES Location(LocationID) ON DELETE SET NULL;
-
-UPDATE Courier SET DestinationLocationID = 11 WHERE CourierID = 11;
-UPDATE Courier SET DestinationLocationID = 12 WHERE CourierID = 12;
-UPDATE Courier SET DestinationLocationID = 13 WHERE CourierID = 13;
-UPDATE Courier SET DestinationLocationID = 11 WHERE CourierID = 14;
-UPDATE Courier SET DestinationLocationID = 12 WHERE CourierID = 15;
-
-SELECT l.LocationID, l.LocationName, COUNT(c.CourierID) AS Total_Delivered
-FROM Location l 
+### 16. Find the total number of couriers delivered to each location.
+```mysql
+SELECT l.LocationID, l.LocationName, COUNT(c.CourierID) AS TotalDelivered
+FROM Location l
 JOIN Courier c ON l.LocationID = c.DestinationLocationID
 WHERE c.Status = 'Delivered'
 GROUP BY l.LocationID, l.LocationName;
+```
+<img width="242" alt="16" src="https://github.com/user-attachments/assets/f7063dcf-d0d2-45a2-aa7f-4d7dad5c8f2f" />
 
+### 17. Find the courier with the highest average delivery time using AVG() and ORDER BY.
+```mysql
 SELECT c.CourierID, 
        AVG(DATEDIFF(c.DeliveryDate, p.PaymentDate)) AS AvgDeliveryTime
-FROM Courier c 
+FROM Courier c
 JOIN Payment p ON c.CourierID = p.CourierID
 GROUP BY c.CourierID
-ORDER BY AvgDeliveryTime DESC 
+ORDER BY AvgDeliveryTime DESC
 LIMIT 1;
+```
+<img width="143" alt="17" src="https://github.com/user-attachments/assets/f65656e1-ad31-457f-ad1b-c200e07c6cad" />
 
-SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS Total_Revenue
-FROM Payment p 
+### 18. Find locations with total payments less than a certain amount using HAVING.
+```mysql
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalPayments
+FROM Payment p
 JOIN Location l ON p.LocationID = l.LocationID
-GROUP BY l.LocationID, l.LocationName 
-HAVING Total_Revenue < 3000;
+GROUP BY l.LocationID, l.LocationName
+HAVING TotalPayments < 3000;
+```
+<img width="241" alt="18" src="https://github.com/user-attachments/assets/58235479-b156-4d6b-9214-7b4226923631" />
 
-SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS Total_Payments
-FROM Payment p 
+### 19. Calculate total payments per location using SUM() and GROUP BY.
+```mysql
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalPayments
+FROM Payment p
 JOIN Location l ON p.LocationID = l.LocationID
 GROUP BY l.LocationID, l.LocationName;
-
-SELECT p.CourierID, SUM(p.Amount) AS Total_Payment
-FROM Payment p 
-WHERE p.LocationID = 11
-GROUP BY p.CourierID 
-HAVING Total_Payment > 1000;
-
-SELECT CourierID, SUM(Amount) AS Total_Payment
-FROM Payment 
-WHERE PaymentDate > '2025-03-21'
-GROUP BY CourierID 
-HAVING Total_Payment > 1000;
-
-SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS Total_Payment
-FROM Payment p 
-JOIN Location l ON p.LocationID = l.LocationID
-WHERE p.PaymentDate < '2025-02-20'
-GROUP BY l.LocationID, l.LocationName 
-HAVING Total_Payment > 5000;
-
 ```
-14. Find the total number of couriers handled by each employee.
-<img width="142" alt="image" src="https://github.com/user-attachments/assets/618eb690-1998-4c2b-9a86-61d6217181ad" />
+<img width="244" alt="19" src="https://github.com/user-attachments/assets/f24425cb-7d2d-43dd-ad59-733277ad7676" />
 
-
-15. Calculate the total revenue generated by each location
-<img width="276" alt="image" src="https://github.com/user-attachments/assets/11301697-eb1d-4434-b5ff-70874a5398c8" />
-
-
-16. Find the total number of couriers delivered to each location.
-<img width="255" alt="image" src="https://github.com/user-attachments/assets/24f149a7-5d0e-4897-939d-e2e177e289e3" />
-
-
-17. Find the courier with the highest average delivery time:
-<img width="149" alt="image" src="https://github.com/user-attachments/assets/2338540b-9f10-47b9-a6e5-5ed7339123bc" />
-
-
-18. Find Locations with Total Payments Less Than a Certain Amount
-<img width="278" alt="image" src="https://github.com/user-attachments/assets/446358ec-98fe-4568-9d3d-3b360cbe61a4" />
-
-
-19. Calculate Total Payments per Location
-<img width="287" alt="image" src="https://github.com/user-attachments/assets/7b5a389e-adb2-4942-a227-ca92ade353d8" />
-
-
-20. Retrieve couriers who have received payments totaling more than $1000 in a specific location (LocationID = X):
-<img width="144" alt="image" src="https://github.com/user-attachments/assets/1a948cff-cf82-4dc8-9211-2095815b4134" />
-
-
-## TASK 4 
+### 20. Retrieve couriers who have received payments totaling more than $1000 in a specific location (WHERE LocationID = X).
 ```mysql
--- 23. Retrieve Payments with Courier Information  
-
-select c.CourierID,c.SenderName,c.ReceiverName,c.DeliveryDate,p.paymentID,p.amount
-from courier c join payment p
-on c.CourierID=p.CourierID
-order by c.CourierID desc;
-
--- 24. Retrieve Payments with Location Information  
-
-select l.locationID,p.paymentID,l.locationName,p.amount,p.paymentDate
-from location l join payment p
-on l.LocationID=p.LocationID;
-
--- 25. Retrieve Payments with Courier and Location Information 
- 
-select p.paymentID,c.courierID,l.locationID,c.senderName,l.locationName,p.paymentDate
-from payment p join courier c on c.CourierID=p.CourierID
-join location l on l.LocationID=p.LocationID
-order by c.CourierID;
-
--- 26. List all payments with courier details
-  
-select p.*,c.courierID,c.senderName
-from payment p join courier c
-on c.CourierID=p.CourierID
-order by c.SenderName;
-
--- 27. Total payments received for each courier
-select courierID,sum(amount) as Total_Payments
-from payment
-group by CourierID;
-
--- 28. List payments made on a specific date 
-
-select p.PaymentID, p.CourierID, c.senderName, p.Amount, p.PaymentDate
-from Payment p
-inner join Courier c on p.CourierID = c.CourierID
-where p.PaymentDate = '2025-01-12';
-
--- 29. Get Courier Information for Each Payment 
- 
-select p.paymentID,p.paymentDate,c.*
-from payment p join courier c 
-on c.CourierID=p.CourierID
-group by p.PaymentID order by p.PaymentID desc;
-
--- 30. Get Payment Details with Location 
- 
-select p.*,l.*
-from payment p inner join location l
-on p.LocationID=l.LocationID;
-
--- 31. Calculating Total Payments for Each Courier
- 
-select courierID,sum(amount) as Total_Payments
-from payment
-group by CourierID; 
-
--- 32. List Payments Within a Date Range  
-
-select * from payment 
-where paymentDate between '2025-02-20' and  '2025-03-06';
-
--- 33. Retrieve a list of all users and their corresponding services, including cases where there are no matches on either side  
-
-select u.UserID, u.Name, s.ServiceID, s.ServiceName from User u
-left join Payment p on u.UserID = p.UserID
-left join Service s on p.ServiceID = s.ServiceID union
-select  u.UserID,u.Name, s.ServiceID, s.ServiceName from User u
-right join Payment p on u.UserID = p.UserID
-right join Service s on p.ServiceID = s.ServiceID;
-
--- 34. Retrieve a list of all couriers and their corresponding courier records, including cases where there are no matches on either side 
- 
-select c.CourierID, c.senderName, s.ServiceID, s.ServiceName from Courier c
-left join Payment p on c.CourierID = p.CourierID 
-left join Service s on p.ServiceID = s.ServiceID union
-select c.CourierID, c.senderName, s.ServiceID, s.ServiceName from Courier c
-right join Payment p on c.CourierID = p.CourierID
-right join Service s on p.ServiceID = s.ServiceID;
-
--- 35. Retrieve a list of all employees and their corresponding payments, including cases where there are no matches on either side
-  
-select e.employeeID,e.Name,e.role,c.courierID,p.paymentID,p.amount from courier c
-left join employee e on c.CourierID=e.CourierID
-left join payment p on c.courierID=p.courierID union
-select e.employeeID,e.Name,e.role,c.courierID,p.paymentID,p.amount from courier c
-right join employee e on c.CourierID=e.CourierID
-right join payment p on c.courierID=p.courierID ;
-
--- 36. List all users and all courier services, showing all possible combinations.  
-
-select u.userID,u.Name,s.serviceID,s.serviceName 
-from user u 
-cross join service s;
-
--- 37. List all employees and all locations, showing all possible combinations:
- 
-select e.employeeID,e.Name,l.LocationID,l.LocationName,l.Address
-from employee e
-cross join location l;
-
--- 38. Retrieve a list of couriers and their corresponding sender information (if available)  
-
-select courierID,senderName,senderAddress 
-from courier;
-
--- 39. Retrieve a list of couriers and their corresponding receiver information (if available):
-  
-select courierID,receiverName,receiverAddress
-from courier;
-
--- 40. Retrieve a list of couriers along with the courier service details (if available): 
- 
-select c.courierID,c.senderName,s.serviceID,s.serviceName
-from payment p join courier c 
-on c.CourierID=p.CourierID
-join service s on s.ServiceID=p.ServiceID;
-
--- 41. Retrieve a list of employees and the number of couriers assigned to each employee: 
-
-select e.employeeID,e.Name,count(c.courierID) as NO_of_couriers
-from  courier c join employee e
-on c.CourierID=e.CourierID
-group by e.EmployeeID;
-
--- 42. Retrieve a list of locations and the total payment amount received at each location:
-
-select l.locationID,l.locationName,sum(p.amount) as Total_payment
-from location l left join payment p
-on l.LocationID=p.locationID
-group by l.LocationID;
-
--- 43. Retrieve all couriers sent by the same sender (based on SenderName).  
-
-select * from Courier c1
-join Courier c2 on c1.SenderName = c2.SenderName 
-and c1.CourierID <> c2.CourierID
-order by c1.SenderName, c1.CourierID;
-
--- 44. List all employees who share the same role.  
-
-select e1.employeeID,e1.Name,e1.role 
-from employee e1 join employee e2
-on e1.role=e2.role and e1.employeeID <> e2.employeeID;
-
--- 45. Retrieve all payments made for couriers sent from the same location.  
-
-select p.paymentID,p.amount,p.paymentDate,l.locationName from payment p 
-join location l on p.locationID=l.locationID
-join courier c on c.CourierID=p.courierID
-join payment p1 on p1.PaymentID<>p.PaymentID --  comparing different payments
-join courier c1 on c1.CourierID=p.CourierID
-join location l1 on l1.LocationID=p.locationID
-order by l.LocationName; -- Ensures payments are from the same location
-
--- 46. Retrieve all couriers sent from the same location (based on SenderAddress). 
-
-select c.CourierID,c.senderName,c.SenderAddress from courier c 
-join courier c1 on c.SenderAddress=c1.SenderAddress
-and c.CourierID <> c1.CourierID;
-
--- 47. List employees and the number of couriers they have delivered:  
-
-select e.employeeID,e.name,count(c.courierID)  as NOofCouriers 
-from employee e join courier c on c.CourierID=e.CourierID
-where status='Delivered'
-group by e.EmployeeID,e.Name;
-
--- 48. Find couriers that were paid an amount greater than the cost of their respective courier services 
-
-select c.courierID,p.amount,s.serviceName,s.serviceID from payment p 
-join courier c on c.CourierID=p.CourierID
-join service s on p.ServiceID=s.ServiceID
-where amount>s.cost;
-
--- 49. Find couriers that have a weight greater than the average weight of all couriers  
-
-select courierID,senderName,weight
-from courier 
-where weight>(select avg(weight) from courier);
-
--- 50. Find the names of all employees who have a salary greater than the average salary:  
-
-select employeeID,Name,salary 
-from employee 
-where salary>(select avg(salary) from employee);
-
--- 51. Find the total cost of all courier services where the cost is less than the maximum cost  
-
-select sum(Cost) as Tota_cost 
-from service where cost<(select max(cost) from service);
-
--- 52. Find all couriers that have been paid for 
-
-select courierID from payment 
-where exists (select 1 from payment where amount is not null); 
-
--- 53. Find the locations where the maximum payment amount was made
-  
-select locationID,amount from payment 
-where amount=(select max(amount) from payment);
-
--- 54. Find all couriers whose weight is greater than the weight of all couriers sent by a specific sender (e.g., 'SenderName'): 
- 
-select courierID,senderName,weight from courier 
-where weight>all
-(select weight from courier where senderName='Kavitha T');
+SELECT p.CourierID, SUM(p.Amount) AS TotalPayment
+FROM Payment p
+WHERE p.LocationID = 11
+GROUP BY p.CourierID
+HAVING TotalPayment > 1000;
 ```
+<img width="136" alt="20" src="https://github.com/user-attachments/assets/1eebe4cd-b057-49d0-8d10-c885e3a0bbb2" />
+
+### 21. Retrieve couriers who have received payments totaling more than $1000 after a certain date (WHERE PaymentDate > 'YYYY-MM-DD').
+```mysql
+SELECT p.CourierID, SUM(p.Amount) AS TotalPayment
+FROM Payment p
+WHERE p.PaymentDate > '2025-03-01'
+GROUP BY p.CourierID
+HAVING TotalPayment > 1000;
+```
+<img width="136" alt="21" src="https://github.com/user-attachments/assets/efec406f-8834-4813-bc89-67092466b393" />
+
+### 22. Retrieve locations where the total amount received is more than $5000 before a certain date (HAVING SUM(Amount) > 5000 AND PaymentDate < 'YYYY-MM-DD').
+```mysql
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalPayment
+FROM Payment p
+JOIN Location l ON p.LocationID = l.LocationID
+WHERE p.PaymentDate < '2025-03-01'
+GROUP BY l.LocationID, l.LocationName
+HAVING TotalPayment > 5000;
+```
+<img width="239" alt="22" src="https://github.com/user-attachments/assets/5f8bcb32-b260-477f-848d-e985a160aedc" />
+
+## Task 4: Inner Join, Full Outer Join, Cross Join, Left Outer Join, Right Outer Join 
+
+
+## Scope: Inner Queries, Non-Equi Joins, Equi joins, Exist, Any, All 
