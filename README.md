@@ -1,5 +1,8 @@
-# Courier Management System
-## Task1: Database Design 
+### Name: Keerthika Nagarajan
+### Superset ID: 5370583
+### College: Saveetha Engineering College 
+# <p align="center">Courier Management System</p>
+## <p align="center">Task1: Database Design</p>
 ### Creating Database
 ```mysql
 CREATE DATABASE courierdb;
@@ -166,7 +169,7 @@ INSERT INTO CourierAssignment (EmployeeID, CourierID) VALUES
 ### EER: 
 <img width="587" alt="EER DIAG" src="https://github.com/user-attachments/assets/c1c4b5de-2291-4ba9-8bbd-323440242e82" />
 
-## Task 2: Select, Where
+## <p align="center">Task 2: Select, Where</p>
 ### 1. List all customers from the User table.
 ```mysql
 SELECT * FROM User;
@@ -362,7 +365,289 @@ HAVING TotalPayment > 5000;
 ```
 <img width="239" alt="22" src="https://github.com/user-attachments/assets/5f8bcb32-b260-477f-848d-e985a160aedc" />
 
-## Task 4: Inner Join, Full Outer Join, Cross Join, Left Outer Join, Right Outer Join 
+## <p align="center">Task 4: Inner Join, Full Outer Join, Cross Join, Left Outer Join, Right Outer Join </p>
+### 23. Retrieve Payments with Courier Information using INNER JOIN.
+```mysql
+SELECT p.PaymentID, p.Amount, c.CourierID, c.SenderName, c.ReceiverName
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID;
+```
+<img width="288" alt="23" src="https://github.com/user-attachments/assets/dd6dab7b-c389-42cb-93bd-a38d8057d2c0" />
+
+### 24. Retrieve Payments with Location Information using INNER JOIN.
+```mysql
+SELECT p.PaymentID, p.Amount, l.LocationID, l.LocationName
+FROM Payment p
+JOIN Location l ON p.LocationID = l.LocationID;
+```
+<img width="274" alt="24" src="https://github.com/user-attachments/assets/97dd288c-7f31-4eda-9e98-162b11c787b9" />
+
+### 25. Retrieve Payments with Courier and Location Information using INNER JOIN.
+```mysql
+SELECT p.PaymentID, p.Amount, c.CourierID, c.SenderName, l.LocationName
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID
+JOIN Location l ON p.LocationID = l.LocationID;
+```
+<img width="325" alt="25" src="https://github.com/user-attachments/assets/4196bcb4-b172-4e11-9534-cc6cd1a3f9a0" />
+
+### 26. List all payments with courier details.
+```mysql
+SELECT p.*, c.SenderName, c.ReceiverName
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID;
+```
+<img width="494" alt="26" src="https://github.com/user-attachments/assets/136533c0-aa1d-46cb-b933-263f28b60e67" />
+
+### 27. Total payments received for each courier using SUM() and GROUP BY.
+```mysql
+SELECT CourierID, SUM(Amount) AS TotalPayments
+FROM Payment
+GROUP BY CourierID;
+```
+<img width="137" alt="27" src="https://github.com/user-attachments/assets/020a9efa-b59b-4856-9a9a-d5f6e8d29414" />
+
+### 28. List payments made on a specific date using WHERE PaymentDate = 'YYYY-MM-DD'.
+```mysql
+SELECT * 
+FROM Payment 
+WHERE PaymentDate = '2025-01-12';
+```
+<img width="367" alt="28" src="https://github.com/user-attachments/assets/4c8282f0-f217-4993-81cc-bc0d6dd0f16f" />
+
+### 29. Get Courier Information for Each Payment using JOIN.
+```mysql
+SELECT p.PaymentID, c.*
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID;
+```
+<img width="774" alt="29" src="https://github.com/user-attachments/assets/39b6a66d-da3c-45d9-a624-10e50338e3b0" />
+
+### 30. Get Payment Details with Location using JOIN.
+```mysql
+SELECT p.*, l.LocationName
+FROM Payment p
+JOIN Location l ON p.LocationID = l.LocationID;
+```
+<img width="467" alt="30" src="https://github.com/user-attachments/assets/b843089c-42d2-4fc4-a52e-4537932937d3" />
+
+### 31. Calculate Total Payments for Each Courier using SUM() and GROUP BY.
+```mysql
+SELECT CourierID, SUM(Amount) AS TotalPayments
+FROM Payment
+GROUP BY CourierID;
+```
+<img width="142" alt="31" src="https://github.com/user-attachments/assets/e50a4d46-2ba3-4d59-9faf-2f2118b3494b" />
+
+### 32. List Payments Within a Date Range using WHERE PaymentDate BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'.
+```mysql
+SELECT * 
+FROM Payment 
+WHERE PaymentDate BETWEEN '2025-01-01' AND '2025-12-31';
+```
+<img width="368" alt="32" src="https://github.com/user-attachments/assets/d6b65015-292a-4d6d-843c-c67084e85f82" />
+
+### 33. Retrieve a list of all users and their corresponding courier records, including cases where there are no matches on either side using FULL OUTER JOIN.
+```mysql
+SELECT u.UserID, u.Name, c.CourierID, c.SenderName
+FROM User u
+LEFT JOIN Courier c ON u.Name = c.SenderName
+UNION
+SELECT u.UserID, u.Name, c.CourierID, c.SenderName
+FROM User u
+RIGHT JOIN Courier c ON u.Name = c.SenderName;
+```
+<img width="236" alt="33" src="https://github.com/user-attachments/assets/18948e54-6ac4-45ce-ab8e-6abd669e55f6" />
+
+### 34. Retrieve a list of all couriers and their corresponding services, including cases where there are no matches on either side using FULL OUTER JOIN.
+```mysql
+SELECT c.CourierID, c.SenderName, s.ServiceID, s.ServiceName
+FROM Courier c
+LEFT JOIN Payment p ON c.CourierID = p.CourierID
+LEFT JOIN Service s ON p.ServiceID = s.ServiceID
+UNION
+SELECT c.CourierID, c.SenderName, s.ServiceID, s.ServiceName
+FROM Courier c
+RIGHT JOIN Payment p ON c.CourierID = p.CourierID
+RIGHT JOIN Service s ON p.ServiceID = s.ServiceID;
+```
+<img width="278" alt="34" src="https://github.com/user-attachments/assets/cc70d7a4-8d7b-4fde-82cd-c5b1e871080d" />
+
+### 35. Retrieve a list of all employees and their corresponding payments, including cases where there are no matches on either side using FULL OUTER JOIN.
+```mysql
+SELECT e.EmployeeID, e.Name, p.PaymentID, p.Amount
+FROM Employee e
+LEFT JOIN CourierAssignment ca ON e.EmployeeID = ca.EmployeeID
+LEFT JOIN Payment p ON ca.CourierID = p.CourierID
+UNION
+SELECT e.EmployeeID, e.Name, p.PaymentID, p.Amount
+FROM Employee e
+RIGHT JOIN CourierAssignment ca ON e.EmployeeID = ca.EmployeeID
+RIGHT JOIN Payment p ON ca.CourierID = p.CourierID;
+```
+<img width="241" alt="35" src="https://github.com/user-attachments/assets/cb912874-61d0-40ed-a83b-5b0fcecfa033" />
+
+### 36. List all users and all courier services, showing all possible combinations using CROSS JOIN.
+```mysql
+SELECT u.UserID, u.Name, s.ServiceID, s.ServiceName
+FROM User u
+CROSS JOIN Service s;
+```
+<img width="266" alt="36" src="https://github.com/user-attachments/assets/ece64238-ed06-4a6f-ba78-83a63619ca85" />
+
+### 37. List all employees and all locations, showing all possible combinations using CROSS JOIN.
+```mysql
+SELECT e.EmployeeID, e.Name, l.LocationID, l.LocationName
+FROM Employee e
+CROSS JOIN Location l;
+```
+<img width="287" alt="37" src="https://github.com/user-attachments/assets/b58e0887-d467-4f42-838f-7e75d15ccba7" />
+
+### 38. Retrieve a list of couriers and their corresponding sender information (if available) using LEFT JOIN.
+```mysql
+SELECT CourierID, SenderName, SenderAddress
+FROM Courier;
+```
+<img width="262" alt="38" src="https://github.com/user-attachments/assets/0587b3cb-0156-405d-932f-afe3a1891fda" />
+
+### 39. Retrieve a list of couriers and their corresponding receiver information (if available) using LEFT JOIN.
+```mysql
+SELECT CourierID, ReceiverName, ReceiverAddress
+FROM Courier;
+```
+<img width="263" alt="39" src="https://github.com/user-attachments/assets/9b8a1708-e35e-4f61-b91e-dadcad544c53" />
+
+### 40. Retrieve a list of couriers along with the courier service details (if available) using LEFT JOIN.
+```mysql
+SELECT c.CourierID, c.SenderName, s.ServiceID, s.ServiceName
+FROM Courier c
+LEFT JOIN Payment p ON c.CourierID = p.CourierID
+LEFT JOIN Service s ON p.ServiceID = s.ServiceID;
+```
+<img width="275" alt="40" src="https://github.com/user-attachments/assets/dff5180b-7b13-4d90-954e-7049eaaccd37" />
+
+### 41. Retrieve a list of employees and the number of couriers assigned to each employee using COUNT() and GROUP BY.
+```mysql
+SELECT e.EmployeeID, e.Name, COUNT(ca.CourierID) AS NumberOfCouriers
+FROM Employee e
+LEFT JOIN CourierAssignment ca ON e.EmployeeID = ca.EmployeeID
+GROUP BY e.EmployeeID, e.Name;
+```
+<img width="223" alt="41" src="https://github.com/user-attachments/assets/ea798f9f-c1ae-4190-b408-6d8586830ed6" />
+
+### 42. Retrieve a list of locations and the total payment amount received at each location using SUM() and GROUP BY.
+```mysql
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalPayments
+FROM Location l
+LEFT JOIN Payment p ON l.LocationID = p.LocationID
+GROUP BY l.LocationID, l.LocationName;
+```
+<img width="244" alt="42" src="https://github.com/user-attachments/assets/948df6be-5b3e-4259-8fb3-0abad9260cfc" />
+
+### 43. Retrieve all couriers sent by the same sender (based on SenderName) using WHERE.
+```mysql
+SELECT c1.CourierID, c1.SenderName, c1.SenderAddress
+FROM Courier c1
+JOIN Courier c2 ON c1.SenderName = c2.SenderName AND c1.CourierID <> c2.CourierID;
+```
+<img width="202" alt="43" src="https://github.com/user-attachments/assets/e2f5409d-e235-4eac-8435-96dbe6c64753" />
+
+### 44. List all employees who share the same role using GROUP BY Role and HAVING COUNT(*) > 1.
+```mysql
+SELECT e1.EmployeeID, e1.Name, e1.Role
+FROM Employee e1
+JOIN Employee e2 ON e1.Role = e2.Role AND e1.EmployeeID <> e2.EmployeeID;
+```
+<img width="143" alt="44" src="https://github.com/user-attachments/assets/9a506dd7-5a50-4130-96ad-5f56515699db" />
 
 
-## Scope: Inner Queries, Non-Equi Joins, Equi joins, Exist, Any, All 
+### 45. Retrieve all payments made for couriers sent from the same location using JOIN and WHERE.
+```mysql
+SELECT p1.PaymentID, p1.Amount, p1.PaymentDate, l.LocationName
+FROM Payment p1
+JOIN Payment p2 ON p1.LocationID = p2.LocationID AND p1.PaymentID <> p2.PaymentID
+JOIN Location l ON p1.LocationID = l.LocationID;
+```
+<img width="288" alt="45" src="https://github.com/user-attachments/assets/d8a31542-d086-484c-bcdf-177984006eda" />
+
+### 46. Retrieve all couriers sent from the same location (based on SenderAddress) using WHERE.
+```mysql
+SELECT c1.CourierID, c1.SenderName, c1.SenderAddress
+FROM Courier c1
+JOIN Courier c2 ON c1.SenderAddress = c2.SenderAddress AND c1.CourierID <> c2.CourierID;
+```
+<img width="204" alt="46" src="https://github.com/user-attachments/assets/c134bb7c-67ec-4409-ab6c-e314345ab659" />
+
+### 47. List employees and the number of couriers they have delivered using COUNT() and GROUP BY.
+```mysql
+SELECT e.EmployeeID, e.Name, COUNT(c.CourierID) AS NumberOfDeliveries
+FROM Employee e
+LEFT JOIN CourierAssignment ca ON e.EmployeeID = ca.EmployeeID
+LEFT JOIN Courier c ON ca.CourierID = c.CourierID AND c.Status = 'Delivered'
+GROUP BY e.EmployeeID, e.Name;
+```
+<img width="233" alt="47" src="https://github.com/user-attachments/assets/aaae19b2-989f-459b-af86-f6b43f51138f" />
+
+### 48. Find couriers that were paid an amount greater than the cost of their respective courier services using WHERE.
+```mysql
+SELECT c.CourierID, c.SenderName, p.Amount, s.ServiceName, s.Cost
+FROM Courier c
+JOIN Payment p ON c.CourierID = p.CourierID
+JOIN Service s ON p.ServiceID = s.ServiceID
+WHERE p.Amount > s.Cost;
+```
+<img width="304" alt="48" src="https://github.com/user-attachments/assets/c74581df-2f37-4045-8f64-e90cfc2bdf0a" />
+
+## <p align="center">Scope: Inner Queries, Non-Equi Joins, Equi joins, Exist, Any, All </p>
+### 49. Find couriers that have a weight greater than the average weight of all couriers using a subquery with AVG().
+```mysql
+SELECT CourierID, SenderName, Weight
+FROM Courier
+WHERE Weight > (SELECT AVG(Weight) FROM Courier);
+```
+<img width="169" alt="49" src="https://github.com/user-attachments/assets/ed53df33-f43e-47ba-b44e-5dab4e9b7f7b" />
+
+### 50. Find the names of all employees who have a salary greater than the average salary using a subquery with AVG().
+```mysql
+SELECT EmployeeID, Name, Salary
+FROM Employee
+WHERE Salary > (SELECT AVG(Salary) FROM Employee);
+```
+<img width="190" alt="50" src="https://github.com/user-attachments/assets/b757aeb3-3b0a-4f13-97d8-fd0ed7a6cc93" />
+
+### 51. Find the total cost of all courier services where the cost is less than the maximum cost using SUM() and a subquery with MAX().
+```mysql
+SELECT SUM(Cost) AS TotalCost
+FROM Service
+WHERE Cost < (SELECT MAX(Cost) FROM Service);
+```
+<img width="70" alt="51" src="https://github.com/user-attachments/assets/dc995742-2fa7-4b48-bb50-c414d8dc8c8a" />
+
+### 52. Find all couriers that have been paid for using EXISTS or JOIN with the Payment table.
+```mysql
+SELECT DISTINCT c.CourierID, c.SenderName
+FROM Courier c
+JOIN Payment p ON c.CourierID = p.CourierID;
+```
+<img width="137" alt="52" src="https://github.com/user-attachments/assets/3232b4e4-ef46-43d6-8e1e-f4f95bdb201b" />
+
+### 53. Find the locations where the maximum payment amount was made using MAX() and GROUP BY.
+```mysql
+SELECT l.LocationID, l.LocationName, p.Amount
+FROM Payment p
+JOIN Location l ON p.LocationID = l.LocationID
+WHERE p.Amount = (SELECT MAX(Amount) FROM Payment);
+```
+<img width="218" alt="53" src="https://github.com/user-attachments/assets/3737433a-53b0-4060-94be-3bb74f669726" />
+
+### 54. Find all couriers whose weight is greater than the weight of all couriers sent by a specific sender (e.g., 'SenderName') using ALL operator.
+```mysql
+SELECT CourierID, SenderName, Weight
+FROM Courier
+WHERE Weight > ALL (
+    SELECT Weight
+    FROM Courier
+    WHERE SenderName = 'John Doe'
+);
+```
+<img width="171" alt="54" src="https://github.com/user-attachments/assets/124a3e6b-684b-423b-90c4-3697072c5f03" />
